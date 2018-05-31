@@ -1,20 +1,70 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
 
+
+<div class="row mt-5">
+  <div class="col-md-6 mx-auto">
+
+      <!--Card Success-->
+      <div class="card info-color text-center z-depth-2 col-md-12">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12 mx-auto">
+              <mdb-progressbar value="50" 
+              min="0" 
+              max="100" 
+              type="info" 
+              aria-valuenow="50" 
+              aria-valuemin="0" 
+              aria-valuemax="100">Blue</mdb-progressbar>
+            </div>
+          </div>
+          <div *ngIf="pauseReplayChecked">
+              <button  
+                      (click)="onPlay()"
+                      class="btn btn-primary waves-light" 
+                      mdbWavesEffect>
+                      <i class="fa fa-play"></i>
+              </button>
+            </div>
+            <div *ngIf="!pauseReplayChecked">
+              <button 
+                      (click)="onPause()"
+                      class="btn btn-default waves-light" 
+                      mdbWavesEffect>
+                      <i class="fa fa-pause"></i>
+              </button>
+            </div>
+              <button 
+                      (click)="onStop()"
+                      class="btn btn-default waves-light" 
+                      mdbWavesEffect>
+                      <i class="fa fa-stop"></i></button>
+              <button 
+                      (click)="onVolumeOff()"
+                      class="btn btn-default waves-light" 
+                      mdbWavesEffect>
+                      <i class="fa fa-volume-off"></i></button>
+              <button 
+                      (click)="onVolumeUp()"
+                      class="btn btn-default waves-light" 
+                      mdbWavesEffect>
+                      <i class="fa fa-volume-up"></i></button>
+              <button 
+                      (click)="onVolumeDown()"
+                      class="btn btn-default waves-light" 
+                      mdbWavesEffect>
+                      <i class="fa fa-volume-down"></i></button>                                   
+          </div>
+      </div>
+      <!--/.Card Success-->
+      <div class="row">
+          <div class="col-md-12 mx-auto">
+            <audio controls>
+              <source src="../assets/Track_028.mp3">
+            </audio>
+          </div>
+        </div>
+  </div>
+  
+ 
+</div>
+                    
