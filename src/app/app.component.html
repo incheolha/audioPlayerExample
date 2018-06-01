@@ -17,7 +17,7 @@
               aria-valuemax="100">Blue</mdb-progressbar>
             </div>
           </div>
-          <div *ngIf="pauseReplayChecked">
+          <div *ngIf="!pauseChecked">
               <button  
                       (click)="onPlay()"
                       class="btn btn-primary waves-light" 
@@ -25,7 +25,7 @@
                       <i class="fa fa-play"></i>
               </button>
             </div>
-            <div *ngIf="!pauseReplayChecked">
+            <div *ngIf="pauseChecked">
               <button 
                       (click)="onPause()"
                       class="btn btn-default waves-light" 
@@ -54,13 +54,18 @@
                       mdbWavesEffect>
                       <i class="fa fa-volume-down"></i></button>                                   
           </div>
+
+          <div class="row">
+      
+          </div>
       </div>
       <!--/.Card Success-->
-      <div class="row">
+      <div class="row mt-5">
           <div class="col-md-12 mx-auto">
-            <audio controls>
-              <source src="../assets/Track_028.mp3">
-            </audio>
+            <p>현재 Song Title: {{ this.songTitle }}</p>
+            <p>현제 Song의 총 소요시간은: {{ this.fullTime }}</p>
+            <p>현재 Song의 노래진행 시간은: {{ this.currentTime }}</p>
+            <p>현재 볼륨 값은: {{ this.volume }}</p>
           </div>
         </div>
   </div>

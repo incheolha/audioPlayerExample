@@ -17,79 +17,89 @@ export class AppComponent implements OnInit, OnDestroy {
   currentTimeSubscription: Subscription;
   songTitleSubscription: Subscription;
   currentVolumeSubscription: Subscription;
-  pauseReplaySubsrciption: Subscription;
-  pauseReplayChecked = true;
+  pauseReplaySubscription: Subscription;
   
+  pauseChecked = false;
   
-  song = new Song('../assets/Track_028.mp3');
-
+  private volume: number;
+  
+  private songTitle: string;
+  private fullTime: string;
+  private currentTime: string;
+  
+ 
   constructor(private audioPlayService: AudioPlayService){}
 
   ngOnInit() {
-  
-
-    this.songSubscription = this.audioPlayService.song.subscribe((song: Song) => {
-
-      console.log( song );
-    });
-
-    this.currentTimeSubscription = this.audioPlayService.currentTime
-              .subscribe((currentTime: string) => {
-                    console.log( currentTime )
-              });
-    this.fullTimeSubscription = this.audioPlayService.fullTime
-                    .subscribe((fullTime: string) => {
-                      console.log( fullTime );
-                    });
-    this.songTitleSubscription = this.audioPlayService.songTitle
-                    .subscribe((songTitle: string) => {
-                      console.log( songTitle );
-                    })                
-    this.currentVolumeSubscription = this.audioPlayService.currentVolume
-                    .subscribe((volume: number)=> {
-                       console.log(volume);
-    })
-    this.pauseReplaySubsrciption = this.audioPlayService.pauseRePlayCheck
-                    .subscribe((pauseStatus: boolean) => {
-                      console.log(pauseStatus);
-                      this.pauseReplayChecked = pauseStatus;
-                      console.log(this.pauseReplayChecked);
-
-                    });
-  }
-  onPlay(buttonChecked: boolean) {
-    console.log('song is clicked');
-  //  this.audioPlayService.startPlay(this.song);
-  
-      this.audioPlayService.onPlayerSetting(this.song);
-  }
-  
-  onPause(buttonChecked: boolean) {
     
-    this.audioPlayService.pausePlay(this.pauseReplayChecked);
-  }
-  onStop() {
-    console.log('song stop is clicked');
-    
-    this.audioPlayService.stopPlay();
+                this.audioPlayService.getAudioPlaySetting();        //초기 audio setting값을 불러옴
+
+                this.songTitleSubscription = this.audioPlayService.songTitle
+                                              .subscribe((songTitle: string) => {
+                                                console.log( '현재 노래의 타이틀은: ' + songTitle );
+                                                this.songTitle = songTitle;
+                                              })    
+                this.fullTimeSubscription = this.audioPlayService.fullTime
+                                              .subscribe((fullTime: string) => {
+                                                console.log( '현재 노래중인 노래의 총길이는: ' + fullTime );
+                                                this.fullTime = fullTime;
+                                              });
+                
+                this.currentVolumeSubscription = this.audioPlayService.currentVolume
+                                              .subscribe((currentVolume: number)=> {
+                                                console.log('현재 노래의 볼륨은: ' + currentVolume);
+                                                this.volume = currentVolume;
+
+                                              });
+                
+                this.currentTimeSubscription = this.audioPlayService.currentTime
+                                                .subscribe((currentTime: string) => {
+                                                      console.log( '현재 노래중인 시간은:' + currentTime )
+                                                      this.currentTime = currentTime;
+                                                });
+
+                this.pauseReplaySubscription = this.audioPlayService.pauseCheck
+                                              .subscribe((pauseStatus: boolean) => {
+                                                this.pauseChecked = pauseStatus;
+                                                console.log('현재 pause button을 보이고자하는 값은: '+ this.pauseChecked )
+                                              });
   }
 
+        onPlay() {
+            console.log('button type 1 clicked');
+            this.audioPlayService.startAudioPlay();
+        }
+        
+        onPause() {
+          console.log('button type 2 clicked');
+          this.audioPlayService.pauseAudioPlay();
+        }
 
-  onVolumeOff() {
-    console.log('click');
-  }
-  onVolumeUp() {
-    console.log('click');
-  }
-  onVolumeDown() {
-    console.log('click');
-  }
+        onStop() {
 
-  ngOnDestroy() {
-    this.currentTimeSubscription.unsubscribe();
-    this.songSubscription.unsubscribe();
-    this.songTitleSubscription.unsubscribe();
-    this.fullTimeSubscription.unsubscribe();
-    this.currentVolumeSubscription.unsubscribe();
-  }
+          console.log('button type 3 clicked');
+          this.audioPlayService.stopAudioPlay();
+        }
+        
+        onVolumeOff() {
+          console.log('click');
+          this.audioPlayService.volumeSetting(true, 0, true);
+        }
+        onVolumeUp() {
+          console.log('click');
+          this.audioPlayService.volumeSetting(false, this.volume, true);
+        }
+        onVolumeDown() {
+          console.log('click');
+          this.audioPlayService.volumeSetting(false, this.volume, false);
+        }
+
+        ngOnDestroy() {
+          this.currentTimeSubscription.unsubscribe();
+          this.songSubscription.unsubscribe();
+          this.songTitleSubscription.unsubscribe();
+          this.fullTimeSubscription.unsubscribe();
+          this.currentVolumeSubscription.unsubscribe();
+          this.pauseReplaySubscription.unsubscribe();
+        }
 }
