@@ -4,72 +4,112 @@
   <div class="col-md-6 mx-auto">
 
       <!--Card Success-->
-      <div class="card info-color text-center z-depth-2 col-md-12">
+      <div class="card info-color text-center z-depth-2 col-md-12 p-0">
+        <h6 class="card-header mdb-color lighten-3 white-text">{{ songTitle }}</h6>
           <div class="card-body">
-            <div class="row">
+            <div class="row t-2">
+              
               <div class="col-md-12 mx-auto">
-              <mdb-progressbar value="50" 
-              min="0" 
-              max="100" 
-              type="info" 
-              aria-valuenow="50" 
-              aria-valuemin="0" 
-              aria-valuemax="100">Blue</mdb-progressbar>
-            </div>
-          </div>
-          <div *ngIf="!pauseChecked">
-              <button  
-                      (click)="onPlay()"
-                      class="btn btn-primary waves-light" 
-                      mdbWavesEffect>
-                      <i class="fa fa-play"></i>
-              </button>
-            </div>
-            <div *ngIf="pauseChecked">
-              <button 
-                      (click)="onPause()"
-                      class="btn btn-default waves-light" 
-                      mdbWavesEffect>
-                      <i class="fa fa-pause"></i>
-              </button>
-            </div>
-              <button 
-                      (click)="onStop()"
-                      class="btn btn-default waves-light" 
-                      mdbWavesEffect>
-                      <i class="fa fa-stop"></i></button>
-              <button 
-                      (click)="onVolumeOff()"
-                      class="btn btn-default waves-light" 
-                      mdbWavesEffect>
-                      <i class="fa fa-volume-off"></i></button>
-              <button 
-                      (click)="onVolumeUp()"
-                      class="btn btn-default waves-light" 
-                      mdbWavesEffect>
-                      <i class="fa fa-volume-up"></i></button>
-              <button 
-                      (click)="onVolumeDown()"
-                      class="btn btn-default waves-light" 
-                      mdbWavesEffect>
-                      <i class="fa fa-volume-down"></i></button>                                   
-          </div>
-
-          <div class="row">
-      
-          </div>
-      </div>
-      <!--/.Card Success-->
-      <div class="row mt-5">
-          <div class="col-md-12 mx-auto">
-            <p>현재 Song Title: {{ this.songTitle }}</p>
-            <p>현제 Song의 총 소요시간은: {{ this.fullTime }}</p>
-            <p>현재 Song의 노래진행 시간은: {{ this.currentTime }}</p>
-            <p>현재 볼륨 값은: {{ this.volume }}</p>
-          </div>
-        </div>
-  </div>
+                <div class="row">
+                  <div class="progress">
+                      <div class="progress-bar" role="progressbar" 
+                      [style.width]="proBar + '%'" 
+                      aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">{{ currentTime }}</div>
+                  </div>
+                </div>  
+                <div class="row t-0">
+                  
+                    <div class="col-md-2 pl-0">
+                        <p class="text-md-left"><small>(00:00)</small></p>
+                    </div>
+                    <div class="col-md-8">
+                        <p class="text-md-center"></p>
+                    </div>
+                    <div class="col-md-2 pr-0">
+                        <p class="text-md-right"><small>({{ fullTime }})</small></p>
+                    </div>
+          
+                  
+                </div>
+                <div class="row">  
+                  <div class="col-md-2"></div>
+                        <div *ngIf="!pauseChecked">
+                          <button  
+                                  (click)="onPlay()"
+                                  class="btn btn-primary waves-light" 
+                                  mdbWavesEffect>
+                                  <i class="fa fa-play"></i>
+                          </button>
+                        </div>
+                        <div *ngIf="pauseChecked">
+                            <button 
+                                    (click)="onPause()"
+                                    class="btn btn-default waves-light" 
+                                    mdbWavesEffect>
+                                    <i class="fa fa-pause"></i>
+                            </button>
+                        </div>
+                          
+                        <div>  
+                              <button 
+                                      (click)="onStop()"
+                                      class="btn btn-default waves-light" 
+                                      mdbWavesEffect>
+                                      <i class="fa fa-stop"></i></button>
+                        </div>
+                        <div>
+                            <button 
+                            (click)="onVolumeOff()"
+                            class="btn btn-default waves-light" 
+                            mdbWavesEffect>
+                            <i class="fa fa-volume-off"></i></button>
+                        </div>
+                        <div>
+                            <button 
+                            (click)="onVolumeDown()"
+                            class="btn btn-default waves-light" 
+                            mdbWavesEffect>
+                            <i class="fa fa-volume-down"></i></button>  
+                        </div>
+                        <div class="pt-2">
+                            <form class="range-field">
+                                <input type="range" value= "{{ proBar }}" min="0" max="100" />
+                            </form>
+                        </div>
+                        <div>
+                            <button 
+                            (click)="onVolumeUp()"
+                            class="btn btn-default waves-light" 
+                            mdbWavesEffect>
+                            <i class="fa fa-volume-up"></i></button>
+                        </div>
+                  </div>       
+                          
+                
+              </div>
   
+            </div>
  
+        </div>
+      </div>
+
+
+<div class="row mt-5">
+    <div class="col-md-12 mx-auto">
+      <p>현재 Song Title: {{ this.songTitle }}</p>
+      <p>현제 Song의 총 소요시간은: {{ this.fullTime }}</p>
+      <p>현재 Song의 노래진행 시간은: {{ this.currentTime }}</p>
+      <p>현재 볼륨 값은: {{ this.volume }}</p>
+    </div>
 </div>
-                    
+
+<div class="row mt-5">
+<div class="col-md-10 mx-auto">
+  
+    <div class="progress">
+        <div class="progress-bar" role="progressbar" 
+        [style.width]="proBar + '%'" 
+        aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">{{ proBarPercent | percent }}</div>
+    </div>           
+</div>
+</div>

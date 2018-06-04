@@ -3,7 +3,7 @@ import { AudioPlayService } from './audioPlayer.service/audio-player.service';
 import { Song } from './song.model';
 import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs';
-
+import { WavesModule, PreloadersModule } from 'ng-uikit-pro-standard';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -18,6 +18,7 @@ export class AppComponent implements OnInit, OnDestroy {
   songTitleSubscription: Subscription;
   currentVolumeSubscription: Subscription;
   pauseReplaySubscription: Subscription;
+  currentProgressiveBarValueSubscription: Subscription;
   
   pauseChecked = false;
   
@@ -26,7 +27,9 @@ export class AppComponent implements OnInit, OnDestroy {
   private songTitle: string;
   private fullTime: string;
   private currentTime: string;
-  
+  private progressBarValue: string;
+  private proBar: number;
+  private proBarPercent: number;
  
   constructor(private audioPlayService: AudioPlayService){}
 
@@ -54,10 +57,18 @@ export class AppComponent implements OnInit, OnDestroy {
                 
                 this.currentTimeSubscription = this.audioPlayService.currentTime
                                                 .subscribe((currentTime: string) => {
-                                                      console.log( '현재 노래중인 시간은:' + currentTime )
-                                                      this.currentTime = currentTime;
-                                                });
-
+                                                     console.log( '현재 노래중인 시간은:' + currentTime );
+                                                     this.currentTime = currentTime;
+                                                                           });
+                this.currentProgressiveBarValueSubscription = this.audioPlayService.currentProgressValue
+                                                  .subscribe((barValue: number) => {
+                                                    this.progressBarValue = barValue.toFixed(6);
+                                                    console.log('원시 오디오값은:' + this.progressBarValue);
+                                                    this.proBar = parseFloat(this.progressBarValue);
+                                                    this.proBarPercent = (this.proBar / 100);
+                                                    console.log(this.proBar);
+                                                  });
+                
                 this.pauseReplaySubscription = this.audioPlayService.pauseCheck
                                               .subscribe((pauseStatus: boolean) => {
                                                 this.pauseChecked = pauseStatus;
