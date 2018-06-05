@@ -86,28 +86,34 @@ export class AudioPlayService{
     }
 
 
-    volumeSetting(muted: boolean, volume: number, volumeUp: boolean) {
+    volumeSetting(muted: boolean, volume: number, volumeUp: boolean, sliderCheck: number) {
 
         const maxVolume = 100;
         const minVolume = 1;
         let newVolume = 0;
-        
-        if (muted) {
-            newVolume = 0;
+       
+        if(sliderCheck) {
+            newVolume = sliderCheck;
         } else {
-                    if (volumeUp) {
-                        newVolume = volume + 10;
-                        if (newVolume > maxVolume) {
-                            newVolume = maxVolume;
-                        } 
+                    if (muted) {
+                        newVolume = 0;
                     } else {
-                        newVolume = volume - 10;
-                        if (newVolume < minVolume) {
-                            newVolume = minVolume;
-                        } 
-                    }
-    }
+                                if (volumeUp) {
+                                    newVolume = volume + 10;
+                                    if (newVolume > maxVolume) {
+                                        newVolume = maxVolume;
+                                    } 
+                                } else {
+                                    newVolume = volume - 10;
+                                    if (newVolume < minVolume) {
+                                        newVolume = minVolume;
+                                    } 
+                                }
+                }
+               
+        }
     this.audio.volume = (newVolume / 100);
+    console.log(newVolume);
     this.currentVolume.next(newVolume);
     }
 

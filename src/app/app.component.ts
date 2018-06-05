@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Renderer2, ViewChild, ElementRef } from '@angular/core';
 import { AudioPlayService } from './audioPlayer.service/audio-player.service';
 import { Song } from './song.model';
 import { Subscription } from 'rxjs/Subscription';
@@ -30,8 +30,18 @@ export class AppComponent implements OnInit, OnDestroy {
   private progressBarValue: string;
   private proBar: number;
   private proBarPercent: number;
- 
-  constructor(private audioPlayService: AudioPlayService){}
+  
+
+// Slider Bar 구성하기
+
+@ViewChild('input') input: ElementRef;
+@ViewChild('rangeCloud') rangeCloud: ElementRef;
+@ViewChild('progressbar') progressbar: ElementRef;
+range: any = 50;
+
+
+  constructor(private audioPlayService: AudioPlayService,
+              private renderer: Renderer2){}
 
   ngOnInit() {
     
@@ -52,14 +62,13 @@ export class AppComponent implements OnInit, OnDestroy {
                                               .subscribe((currentVolume: number)=> {
                                                 console.log('현재 노래의 볼륨은: ' + currentVolume);
                                                 this.volume = currentVolume;
-
                                               });
                 
                 this.currentTimeSubscription = this.audioPlayService.currentTime
                                                 .subscribe((currentTime: string) => {
                                                      console.log( '현재 노래중인 시간은:' + currentTime );
                                                      this.currentTime = currentTime;
-                                                                           });
+                                                });
                 this.currentProgressiveBarValueSubscription = this.audioPlayService.currentProgressValue
                                                   .subscribe((barValue: number) => {
                                                     this.progressBarValue = barValue.toFixed(6);
@@ -75,6 +84,26 @@ export class AppComponent implements OnInit, OnDestroy {
                                                 console.log('현재 pause button을 보이고자하는 값은: '+ this.pauseChecked )
                                               });
   }
+
+  // slider bar function -----
+  coverage() {
+    if (typeof this.range === "string" && this.range.length !== 0) {
+      return this.range;
+    }
+    // console.log(this.input.nativeElement.value);
+    const maxValue = this.input.nativeElement.getAttribute('max');
+    console.log(maxValue);
+    const cloudRange = (this.range / maxValue) * 100;
+    console.log(cloudRange);
+    this.audioPlayService.volumeSetting(true, 0, true, cloudRange);
+    this.renderer.setStyle(this.rangeCloud.nativeElement, 'left', cloudRange + '%')
+  }
+
+  
+
+
+
+
 
         onPlay() {
             console.log('button type 1 clicked');
@@ -94,15 +123,15 @@ export class AppComponent implements OnInit, OnDestroy {
         
         onVolumeOff() {
           console.log('click');
-          this.audioPlayService.volumeSetting(true, 0, true);
+          this.audioPlayService.volumeSetting(true, 0, true, null);
         }
         onVolumeUp() {
           console.log('click');
-          this.audioPlayService.volumeSetting(false, this.volume, true);
+          this.audioPlayService.volumeSetting(false, this.volume, true, null);
         }
         onVolumeDown() {
           console.log('click');
-          this.audioPlayService.volumeSetting(false, this.volume, false);
+          this.audioPlayService.volumeSetting(false, this.volume, false, null);
         }
 
         ngOnDestroy() {
